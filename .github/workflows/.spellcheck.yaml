@@ -2,7 +2,7 @@ name: Spell Checking
 
 on:
   push:
-    branches: [ main ]
+    branches: [ spellcheck ]
 jobs:
   codespell:
     name: Check spelling with codespell
