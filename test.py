@@ -1,2 +1,1 @@
-print('Hello, world!')
-afysd("bdsbds")
+print('Hello, world!');
