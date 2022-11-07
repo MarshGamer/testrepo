@@ -1,0 +1,10 @@
+on:
+  push:
+    branches: [ spellcheck ]
+name: Lint Python
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cclauss/Find-Python-syntax-errors-action@master
