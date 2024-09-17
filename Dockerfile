@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install Node.js (for Vite)
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
 # Install NPM (fixes and installs without cache)
@@ -36,8 +36,14 @@ RUN npm install -g npm@latest
 # Copy existing application directory contents
 COPY . /var/www
 
+# Remove existing node_modules and package-lock.json if they exist
+RUN rm -rf node_modules package-lock.json
+
+# Clean npm cache
+RUN npm cache clean --force
+
 # Install NPM dependencies
-RUN npm install --no-cache --legacy-peer-deps
+RUN npm install
 
 # Build Vite assets
 RUN npm run build
