@@ -21,9 +21,6 @@ RUN apt-get update && apt-get install -y \
     netcat-openbsd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
-RUN docker-php-ext-configure intl \
-    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip intl calendar
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -32,18 +29,22 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs
 
+# Install NPM (fixes and installs without cache)
+RUN npm install -g npm@latest
+
 
 # Copy existing application directory contents
 COPY . /var/www
 
-# Run Composer install
-RUN composer install --optimize-autoloader --no-dev
-
 # Install NPM dependencies
-RUN npm install
+RUN npm install --no-cache --legacy-peer-deps
 
 # Build Vite assets
 RUN npm run build
+
+# Run Composer install
+RUN composer install --optimize-autoloader --no-dev
+
 
 # Change permissions
 RUN chown -R www-data:www-data /var/www
