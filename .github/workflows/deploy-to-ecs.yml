@@ -36,7 +36,4 @@ jobs:
     - name: Update ECS Service with New Image
       run: |
         aws ecs update-service --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service ${{ secrets.ECS_SERVICE_NAME }} --force-new-deployment
-        echo "Service updated. Checking deployment status..."
-        sleep 60  # Wait for the service to stabilize
-        aws ecs describe-services --cluster ${{ secrets.ECS_CLUSTER_NAME }} --services ${{ secrets.ECS_SERVICE_NAME }} --query "services[0].deployments[0].rolloutStateReason" --output text
 
