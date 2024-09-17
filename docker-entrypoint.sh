@@ -6,12 +6,12 @@
 #  sleep 1
 #done
 # Clear Laravel caches
-echo "Clearing caches..."
-php artisan cache:clear
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
-php artisan clear-compiled
+#echo "Clearing caches..."
+#php artisan cache:clear
+#php artisan config:clear
+#php artisan route:clear
+#php artisan view:clear
+#php artisan clear-compiled
 
 # Run migrations
 echo "Running migrations..."

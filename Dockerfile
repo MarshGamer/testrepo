@@ -28,11 +28,22 @@ RUN docker-php-ext-configure intl \
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Install Node.js (for Vite)
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y nodejs
+
+
 # Copy existing application directory contents
 COPY . /var/www
 
 # Run Composer install
 RUN composer install --optimize-autoloader --no-dev
+
+# Install NPM dependencies
+RUN npm install
+
+# Build Vite assets
+RUN npm run build
 
 # Change permissions
 RUN chown -R www-data:www-data /var/www
